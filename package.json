@@ -1,0 +1,84 @@
+{
+    "name": "neuralyzer",
+    "version": "0.0.2",
+    "description": "A Chrome plugin that has the ability to bring the kiosk back to its homepage from any other websites",
+    "repository": "git@github.com:xavierp1992/neuralyzer.git",
+    "private": true,
+    "scripts": {
+      "test": "eslint src && jest src --colors --coverage",
+      "build": "webpack build",
+      "zip": "node config/zip.js",
+      "start:options": "webpack serve --config-name optionsPage",
+      "start:neuralyzer": "webpack serve --config-name neuralyzerConfig"
+    },
+    "eslintConfig": {
+      "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+      },
+      "extends": [
+        "plugin:jest/recommended",
+        "prettier"
+      ],
+      "plugins": [
+        "jest",
+        "prettier"
+      ],
+      "env": {
+        "node": true,
+        "es6": true,
+        "jest/globals": true
+      },
+      "rules": {
+        "prettier/prettier": [
+          "error",
+          {
+            "singleQuote": true,
+            "trailingComma": "es5"
+          }
+        ]
+      },
+      "globals": {
+        "jest": true
+      },
+      "overrides": [
+        {
+          "files": [
+            "*.test.js"
+          ],
+          "rules": {
+            "no-unused-vars": "off",
+            "no-global-assign": "off"
+          }
+        }
+      ]
+    },
+    "jest": {
+      "setupFiles": ["./config/jestSetup"]
+    },
+    "dependencies": {},
+    "devDependencies": {
+      "@babel/core": "^7.18.9",
+      "@babel/preset-env": "^7.18.9",
+      "@types/jest": "^28.1.6",
+      "babel-jest": "^28.1.3",
+      "css-loader": "^6.7.1",
+      "css-minimizer-webpack-plugin": "^4.0.0",
+      "dotenv": "^16.0.1",
+      "eslint": "^8.20.0",
+      "eslint-config-prettier": "^8.5.0",
+      "eslint-plugin-jest": "^26.6.0",
+      "eslint-plugin-prettier": "^4.2.1",
+      "html-webpack-plugin": "^5.5.0",
+      "jest": "^28.1.3",
+      "jest-environment-jsdom": "^28.1.3",
+      "jsdom": "^20.0.0",
+      "mini-css-extract-plugin": "^2.6.1",
+      "prettier": "^2.7.1",
+      "style-loader": "^3.3.1",
+      "webpack": "^5.73.0",
+      "webpack-cli": "^4.10.0",
+      "webpack-dev-server": "^4.9.3",
+      "webpack-merge": "^5.8.0"
+    }
+  }

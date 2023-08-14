@@ -1,0 +1,15 @@
+#neuralyzerBtn {
+    border: 1px solid #00b0b2;
+    background-color: rgba(255,255,255, 0);
+    height: 8px;
+    width: 8px;
+    padding: 0 0;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    z-index: 2001;
+}
+@media print {
+    #neuralyzerBtn { display: none }
+}
