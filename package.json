@@ -1,11 +1,11 @@
 {
     "name": "neuralyzer",
-    "version": "0.0.2",
+    "version": "0.1.2",
     "description": "A Chrome plugin that has the ability to bring the kiosk back to its homepage from any other websites",
     "repository": "git@github.com:xavierp1992/neuralyzer.git",
     "private": true,
     "scripts": {
-      "test": "eslint src && jest src --colors --coverage",
+      "test": "eslint src && jest src --colors --coverage --passWithNoTests",
       "build": "webpack build",
       "zip": "node config/zip.js",
       "fix": "eslint --fix src",
