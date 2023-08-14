@@ -8,4 +8,7 @@ chrome.storage.sync.get(OPTION_KEYS, function (options) {
   if (options.statusUrl) {
     subscribeStatus(options);
   }
+  if (options.kioskName) {
+    console.log({ currentUrl: window.location.href });
+  }
 });

@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - clients/**
+      - feature/**
   pull_request:
     branches:
       - master
