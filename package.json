@@ -8,6 +8,7 @@
       "test": "eslint src && jest src --colors --coverage",
       "build": "webpack build",
       "zip": "node config/zip.js",
+      "fix": "eslint --fix src",
       "start:options": "webpack serve --config-name optionsPage",
       "start:neuralyzer": "webpack serve --config-name neuralyzerConfig"
     },
