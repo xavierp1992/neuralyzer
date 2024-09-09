@@ -10,15 +10,15 @@ chrome.storage.sync.get(OPTION_KEYS, function (options) {
     options.url.lastIndexOf('/')
   );
   if (window.location.host === domain) {
-    if (options.statusUrl) {
-      subscribeStatus(options);
-    }
     if (options.kioskName) {
       const kioskName = localStorage.getItem('kioskName');
       if (kioskName === null || kioskName !== options.kioskName) {
         localStorage.setItem('kioskName', options.kioskName);
         window.location.reload();
       }
+    }
+    if (options.statusUrl) {
+      subscribeStatus(options);
     }
   }
 });

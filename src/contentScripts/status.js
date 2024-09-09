@@ -3,6 +3,7 @@ export function subscribeStatus({ statusUrl, url }) {
   const popId = 'neuralyzerMsg';
   const eventSrc = new EventSource(statusUrl);
   eventSrc.onmessage = function (event) {
+    console.log({ event });
     const maintenance = JSON.parse(event.data);
     let popup = document.getElementById(popId);
     if (maintenance.isMaintenance) {
