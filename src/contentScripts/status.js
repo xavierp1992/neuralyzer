@@ -20,7 +20,9 @@ export function subscribeStatus({ statusUrl, url }) {
   };
   eventSrc.onerror = function () {
     eventSrc.close();
-    subscribeStatus({ statusUrl, url });
+    setTimeout(function () {
+      subscribeStatus({ statusUrl, url });
+    }, 60000);
   };
 
   return eventSrc;
