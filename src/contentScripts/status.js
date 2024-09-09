@@ -18,6 +18,10 @@ export function subscribeStatus({ statusUrl, url }) {
       window.location.href = url;
     }
   };
+  eventSrc.onerror = function () {
+    eventSrc.close();
+    subscribeStatus({ statusUrl, url });
+  };
 
   return eventSrc;
 
