@@ -20,5 +20,12 @@ chrome.storage.sync.get(OPTION_KEYS, function (options) {
     if (options.statusUrl) {
       subscribeStatus(options);
     }
+    setInterval(function () {
+      const today = new Date().getHours();
+      if (today >= 16 && today <= 18) {
+        console.log('session to be cleared, redirecting in progress...');
+        window.location.href = options.url;
+      }
+    }, 3600000);
   }
 });
