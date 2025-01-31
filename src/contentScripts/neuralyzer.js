@@ -22,7 +22,7 @@ chrome.storage.sync.get(OPTION_KEYS, function (options) {
     }
     setInterval(function () {
       const today = new Date().getHours();
-      if (today >= 0 && today <= 7) {
+      if (today >= 16 && today <= 18) {
         console.log('session to be cleared, redirecting in progress...');
         window.location.href = options.url;
       }
