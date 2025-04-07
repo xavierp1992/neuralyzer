@@ -40,7 +40,8 @@ export function subscribeStatus({ statusUrl, url }) {
     const icon = new Image();
     icon.src = failIcon;
     const msg = document.createElement('i');
-    msg.textContent = message;
+    const newMessage = message.replace(/\n/g, '<br>');
+    msg.innerHTML = newMessage;
     return [icon, msg];
   }
 }
