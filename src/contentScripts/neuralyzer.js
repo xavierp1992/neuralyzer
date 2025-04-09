@@ -9,7 +9,8 @@ chrome.storage.sync.get(OPTION_KEYS, function (options) {
     options.url.indexOf('https://') + 8,
     options.url.lastIndexOf('/')
   );
-  if (window.location.host === domain && window.location.href === options.url) {
+  const adminDomain = `https://${domain}/admin`;
+  if (window.location.host === domain && !window.location.href.startsWith(adminDomain)) {
     if (options.kioskName) {
       const kioskName = localStorage.getItem('kioskName');
       if (kioskName === null || kioskName !== options.kioskName) {
