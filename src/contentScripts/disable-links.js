@@ -31,7 +31,6 @@ function markAnchorDisabled(anchor) {
 function collectAllLinks(root = document) {
   const links = [];
   links.push(...root.querySelectorAll('a[href]'));
-  console.log('links', links);
   const allElements = root.querySelectorAll('*');
   allElements.forEach((el) => {
     if (el.shadowRoot) {
@@ -118,7 +117,6 @@ chrome.storage.sync.get({ disableLinkUrls: [] }, (result) => {
   const patterns = result.disableLinkUrls || [];
   const currentUrl = window.location.href;
 
-  log('Current page URL:', currentUrl);
   log('Disable-link patterns:', patterns);
 
   if (!shouldDisableForUrl(currentUrl, patterns)) {

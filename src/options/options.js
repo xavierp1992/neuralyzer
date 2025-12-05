@@ -35,7 +35,9 @@ document.getElementById('save-disable-links').addEventListener('click', () => {
   const textarea = document.getElementById('disableUrls');
   const rawLines = textarea.value.split('\n');
 
-  const patterns = rawLines.map((l) => l.trim()).filter((l) => l.length > 0);
+  const patterns = rawLines
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
   chrome.storage.sync.set({ disableLinkUrls: patterns }, () => {
     const status = document.getElementById('disable-links-status');
     status.textContent = 'Saved!';
