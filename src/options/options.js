@@ -5,6 +5,10 @@ chrome.storage.sync.get(OPTION_KEYS, function (config) {
     (key) => (document.getElementById(key).value = config[key] || '')
   );
 });
+chrome.storage.sync.get({ disableLinkUrls: [] }, (result) => {
+  const textarea = document.getElementById('disableUrls');
+  textarea.value = result.disableLinkUrls.join('\n');
+});
 
 document.getElementById('configuration').onsubmit = function (event) {
   event.preventDefault();
@@ -25,3 +29,20 @@ document.getElementById('configuration').onsubmit = function (event) {
     }, 1500);
   });
 };
+// options/options.js
+
+document.getElementById('save-disable-links').addEventListener('click', () => {
+  const textarea = document.getElementById('disableUrls');
+  const rawLines = textarea.value.split('\n');
+
+  const patterns = rawLines
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+  chrome.storage.sync.set({ disableLinkUrls: patterns }, () => {
+    const status = document.getElementById('disable-links-status');
+    status.textContent = 'Saved!';
+    setTimeout(() => {
+      status.textContent = '';
+    }, 1500);
+  });
+});

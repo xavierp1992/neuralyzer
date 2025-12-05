@@ -16,7 +16,10 @@ module.exports = function neuralyzerConfig(env) {
 
   return merge(env.WEBPACK_SERVE ? devConfig : prodConfig, {
     name: 'neuralyzerConfig',
-    entry: { neuralyzer: './src/contentScripts/neuralyzer.js' },
+    entry: {
+      neuralyzer: './src/contentScripts/neuralyzer.js',
+      'disable-links': './src/contentScripts/disable-links.js',
+    },
     output: {
       publicPath: '',
     },
