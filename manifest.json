@@ -9,11 +9,13 @@
           "*://*/*"
         ],
         "js": [
-          "neuralyzer.js"
+          "neuralyzer.js",
+          "disable-links.js"
         ],
         "css": [
           "neuralyzer.css"
-        ]
+        ],
+        "all_frames": true
       }
     ],
     "action": {
