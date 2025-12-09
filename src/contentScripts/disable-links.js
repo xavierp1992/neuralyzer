@@ -14,12 +14,6 @@ function markAnchorDisabled(anchor) {
     anchor.dataset.originalHref = originalHref;
   }
 
-  log('Disabling anchor:', {
-    text: anchor.textContent?.trim(),
-    href: originalHref,
-    classes: anchor.className,
-  });
-
   // Remove href + block interactions
   anchor.removeAttribute('href');
   anchor.style.pointerEvents = 'none';
@@ -34,7 +28,6 @@ function collectAllLinks(root = document) {
   const allElements = root.querySelectorAll('*');
   allElements.forEach((el) => {
     if (el.shadowRoot) {
-      log('Found shadowRoot in element:', el);
       links.push(...collectAllLinks(el.shadowRoot));
     }
   });
@@ -42,7 +35,6 @@ function collectAllLinks(root = document) {
 }
 function disableAllCurrentAnchors() {
   const anchors = collectAllLinks(document);
-  log(`Found ${anchors.length} anchors to disable.`);
   anchors.forEach(markAnchorDisabled);
 }
 
@@ -50,22 +42,21 @@ function setupGlobalClickBlocker() {
   document.addEventListener(
     'click',
     (event) => {
+      // If clicked div is a shadowRoot, check for links inside it. If there are links in the shadowRoot, disable them.
+      if (event.target.shadowRoot) {
+        const links = [];
+        links.push(...collectAllLinks(event.target.shadowRoot));
+        links.forEach(markAnchorDisabled);
+      }
       const anchor =
         event.target && event.target.closest ? event.target.closest('a') : null;
       if (!anchor) {
-        console.log('no anchor');
         return;
       }
 
       // If it has an href OR we previously marked it, block it
       const href = anchor.getAttribute('href') || anchor.dataset.originalHref;
       if (!href) return;
-
-      log('Blocking click on:', {
-        text: anchor.textContent?.trim(),
-        href,
-        classes: anchor.className,
-      });
 
       anchor.style.pointerEvents = 'none';
       anchor.style.cursor = 'default';
@@ -84,7 +75,6 @@ function setupMutationObserver() {
         if (node.nodeType !== Node.ELEMENT_NODE) return;
 
         const el = /** @type {HTMLElement} */ (node);
-
         // If the added node is an <a>, process it
         if (el.tagName === 'A') {
           markAnchorDisabled(el);
@@ -104,8 +94,6 @@ function setupMutationObserver() {
     childList: true,
     subtree: true,
   });
-
-  log('MutationObserver for new anchors is set up.');
 }
 
 function shouldDisableForUrl(url, patterns) {
@@ -116,8 +104,6 @@ function shouldDisableForUrl(url, patterns) {
 chrome.storage.sync.get({ disableLinkUrls: [] }, (result) => {
   const patterns = result.disableLinkUrls || [];
   const currentUrl = window.location.href;
-
-  log('Disable-link patterns:', patterns);
 
   if (!shouldDisableForUrl(currentUrl, patterns)) {
     log('No matching pattern; not disabling links on this page.');
