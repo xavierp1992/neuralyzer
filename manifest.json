@@ -14,8 +14,7 @@
         ],
         "css": [
           "neuralyzer.css"
-        ],
-        "all_frames": true
+        ]
       }
     ],
     "action": {
