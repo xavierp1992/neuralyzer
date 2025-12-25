@@ -9,13 +9,14 @@ chrome.storage.sync.get({ disableLinkUrls: [] }, (result) => {
   const textarea = document.getElementById('disableUrls');
   textarea.value = result.disableLinkUrls.join('\n');
 });
-chrome.storage.sync.get({ isManualMaintenance: false }, (result) => {
-  const statusText = document.getElementById('manualMaintenance');
-  const slider = document.getElementById('toggleMaintenance');
-  console.log('result', result);
-  statusText.textContent = result.isManualMaintenance ? 'Online' : 'Offline';
-  slider.checked = result.isManualMaintenance;
-});
+chrome.storage.sync
+  .get({ isManualMaintenance: false })
+  .then(({ isManualMaintenance }) => {
+    const statusText = document.getElementById('manualMaintenance');
+    const slider = document.getElementById('toggleMaintenance');
+    statusText.textContent = isManualMaintenance ? 'Online' : 'Offline';
+    slider.checked = isManualMaintenance;
+  });
 document.getElementById('configuration').onsubmit = function (event) {
   event.preventDefault();
   const values = Object.values(event.target).reduce(function (
