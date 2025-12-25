@@ -48,7 +48,6 @@ document
         chrome.tabs.reload(tabs[0].id);
       })
     );
-    console.log('maintenance toggled');
   });
 document.getElementById('save-disable-links').addEventListener('click', () => {
   const textarea = document.getElementById('disableUrls');
