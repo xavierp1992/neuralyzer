@@ -27,3 +27,42 @@ footer {
     font-size: 0.8em;
     text-align: center;
 }
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;   /* normal size */
+  height: 20px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #ccc;
+  border-radius: 20px;
+  transition: 0.25s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 16px;   /* knob size */
+  width: 16px;
+  left: 2px;
+  top: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.25s;
+}
+
+.switch input:checked + .slider {
+  background: #4caf50;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(20px);
+}

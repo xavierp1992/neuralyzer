@@ -3,21 +3,26 @@ export function subscribeStatus({ statusUrl, url }) {
   const popId = 'neuralyzerMsg';
   const eventSrc = new EventSource(statusUrl);
   eventSrc.onmessage = function (event) {
-    console.log({ event });
-    const maintenance = JSON.parse(event.data);
-    let popup = document.getElementById(popId);
-    if (maintenance.isMaintenance) {
-      if (!popup) {
-        popup = generatePopupNode();
-      }
-      popup.innerText = '';
-      generateContentNodes(maintenance.message).forEach(
-        popup.appendChild.bind(popup)
-      );
-    } else if (popup) {
-      popup.remove();
-      window.location.href = url;
-    }
+    const manualMaintenanceMessage =
+      'We are upgrading our systems to serve you better. \n. Thank you for your understanding.';
+    chrome.storage.sync
+      .get({ isManualMaintenance: false })
+      .then(({ isManualMaintenance }) => {
+        const maintenance = JSON.parse(event.data);
+        let popup = document.getElementById(popId);
+        if (maintenance.isMaintenance || isManualMaintenance) {
+          if (!popup) {
+            popup = generatePopupNode();
+          }
+          popup.innerText = '';
+          generateContentNodes(
+            isManualMaintenance ? manualMaintenanceMessage : maintenance.message
+          ).forEach(popup.appendChild.bind(popup));
+        } else if (popup) {
+          popup.remove();
+          window.location.href = url;
+        }
+      });
   };
   eventSrc.onerror = function () {
     eventSrc.close();

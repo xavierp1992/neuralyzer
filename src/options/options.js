@@ -9,7 +9,14 @@ chrome.storage.sync.get({ disableLinkUrls: [] }, (result) => {
   const textarea = document.getElementById('disableUrls');
   textarea.value = result.disableLinkUrls.join('\n');
 });
-
+chrome.storage.sync
+  .get({ isManualMaintenance: false })
+  .then(({ isManualMaintenance }) => {
+    const statusText = document.getElementById('manualMaintenance');
+    const slider = document.getElementById('toggleMaintenance');
+    statusText.textContent = isManualMaintenance ? 'Online' : 'Offline';
+    slider.checked = isManualMaintenance;
+  });
 document.getElementById('configuration').onsubmit = function (event) {
   event.preventDefault();
   const values = Object.values(event.target).reduce(function (
@@ -30,7 +37,18 @@ document.getElementById('configuration').onsubmit = function (event) {
   });
 };
 // options/options.js
-
+document
+  .getElementById('toggleMaintenance')
+  .addEventListener('change', (event) => {
+    const isChecked = event.target.checked;
+    const statusText = document.getElementById('manualMaintenance');
+    statusText.textContent = event.target.checked ? 'Online' : 'Offline';
+    chrome.storage.sync.set({ isManualMaintenance: isChecked }).then(
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.tabs.reload(tabs[0].id);
+      })
+    );
+  });
 document.getElementById('save-disable-links').addEventListener('click', () => {
   const textarea = document.getElementById('disableUrls');
   const rawLines = textarea.value.split('\n');
