@@ -4,7 +4,7 @@ export function subscribeStatus({ statusUrl, url }) {
   const eventSrc = new EventSource(statusUrl);
   eventSrc.onmessage = function (event) {
     const manualMaintenanceMessage =
-      'We are upgrading our systems to serve you better. \n For urgent supply reconnections, please call 6671 7100. \n Bill payments may be made via internet banking, AXS, or at 7-Eleven stores and DBS/POSB/OCBC ATMs \n. Thank you for your understanding.';
+      'We are upgrading our systems to serve you better. \n. Thank you for your understanding.';
     chrome.storage.sync
       .get({ isManualMaintenance: false })
       .then(({ isManualMaintenance }) => {
