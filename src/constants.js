@@ -1,1 +1,1 @@
-export const OPTION_KEYS = ['url', 'statusUrl', 'kioskName'];
+export const OPTION_KEYS = ['url', 'statusUrl', 'kioskName', 'previousStepUrl'];

@@ -4,7 +4,7 @@ import { createDot } from './dot';
 import { subscribeStatus } from './status';
 
 chrome.storage.sync.get(OPTION_KEYS, function (options) {
-  document.body.appendChild(createDot(options.url));
+  document.body.appendChild(createDot(options.previousStepUrl ?? options.url));
   const domain = options.url.substring(
     options.url.indexOf('https://') + 8,
     options.url.lastIndexOf('/')

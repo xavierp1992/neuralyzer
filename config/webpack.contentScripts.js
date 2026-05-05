@@ -19,6 +19,7 @@ module.exports = function neuralyzerConfig(env) {
     entry: {
       neuralyzer: './src/contentScripts/neuralyzer.js',
       'disable-links': './src/contentScripts/disable-links.js',
+      'background.bundle': './src/background/background.js',
     },
     output: {
       publicPath: '',
