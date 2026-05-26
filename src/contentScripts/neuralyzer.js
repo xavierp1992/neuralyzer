@@ -1,6 +1,6 @@
 import './neuralyzer.css';
 import {
-  isKioskDomain,
+  existsDomWithText,
   isSingpassDomain,
   KIOSK_PREVIOUS_URL_KEY,
   OPTION_KEYS,
@@ -42,10 +42,47 @@ chrome.storage.sync.get(OPTION_KEYS, function (options) {
 
 chrome.storage.sync.get([KIOSK_PREVIOUS_URL_KEY], function (value) {
   const currentURl = window.location.origin;
-  const isKiosk = isKioskDomain(currentURl);
   const isSingpass = isSingpassDomain(currentURl);
-  // Just show button when user is in singpass page
-  if (!isKiosk && isSingpass) {
-    document.body.appendChild(createNavigateButton(value?.previousStepUrl));
+
+  if (!isSingpass) {
+    return;
   }
+
+  const navigateUrl = value?.previousStepUrl;
+
+  function tryAddButton() {
+    if (!document.body) {
+      return false;
+    }
+    const button = document.getElementById('neuralyzerNavigateBtn');
+    const isSingpassFirstPage = existsDomWithText('Log in with Singpass');
+
+    if (isSingpassFirstPage) {
+      if (!button) {
+        document.body.appendChild(createNavigateButton(navigateUrl));
+      }
+      return true;
+    } else {
+      if (button) {
+        button.remove();
+      }
+      return false;
+    }
+  }
+
+  const observer = new MutationObserver(() => {
+    tryAddButton();
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+
+  window.addEventListener('click', () => tryAddButton());
+  window.addEventListener('touchstart', () => tryAddButton(), {
+    passive: true,
+  });
+
+  tryAddButton();
 });

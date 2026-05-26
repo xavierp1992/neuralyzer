@@ -33,3 +33,17 @@ export function isKioskDomain(url) {
 export function isSingpassDomain(url) {
   return isMatchDomain(url, SINGPASS_DOMAIN_PATTERNS);
 }
+
+export function existsDomWithText(text) {
+  const xpath = `//*[contains(normalize-space(.), '${text}')]`;
+
+  return (
+    document.evaluate(
+      xpath,
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    ).singleNodeValue !== null
+  );
+}
