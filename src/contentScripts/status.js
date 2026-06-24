@@ -9,6 +9,9 @@ export function subscribeStatus({ statusUrl, url }) {
   let watchdogTimer = null;
 
   const eventSrc = new EventSource(statusUrl);
+  eventSrc.addEventListener('ping', function () {
+    armWatchdog();
+  });
 
   const armWatchdog = () => {
     clearTimeout(watchdogTimer);
@@ -17,6 +20,7 @@ export function subscribeStatus({ statusUrl, url }) {
       reconnect();
     }, STREAM_IDLE_TIMEOUT_MS);
   };
+
   const reconnect = () => {
     clearTimeout(watchdogTimer);
     if (eventSrc) {
@@ -24,7 +28,6 @@ export function subscribeStatus({ statusUrl, url }) {
       subscribeStatus({ statusUrl, url });
     }
   };
-
   const startPolling = async () => {
     if (pollingTimer) {
       return;
@@ -58,9 +61,11 @@ export function subscribeStatus({ statusUrl, url }) {
       pollingTimer = null;
     }
   };
+
   eventSrc.onopen = () => {
     armWatchdog();
   };
+
   eventSrc.onmessage = function (event) {
     armWatchdog();
     const manualMaintenanceMessage =
