@@ -36,10 +36,10 @@
 
 #neuralyzerNavigateBtn {
     position: fixed !important;
-    top: 250px !important;
-    left: 87px !important;
+    bottom: 18% !important;
+    left: 2% !important;
     height: 52px !important;
-    width: 284px !important;
+    width: 240px !important;
     border-radius: 4px !important;
     border: 1px solid #008587 !important;
     background-color: #ffffff !important;
@@ -66,4 +66,11 @@
 
 #neuralyzerNavigateBtn:active {
     background-color: #d1eded !important;
+}
+
+/* newKiosk: 1366 x 768 */
+@media screen and (max-width: 1366px) and (max-height: 768px) {
+    #neuralyzerNavigateBtn {
+        bottom: 9% !important;
+    }
 }

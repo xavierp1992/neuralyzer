@@ -55,7 +55,7 @@ chrome.storage.sync.get([KIOSK_PREVIOUS_URL_KEY], function (value) {
       return false;
     }
     const button = document.getElementById('neuralyzerNavigateBtn');
-    const isSingpassFirstPage = existsDomWithText('Log in with Singpass');
+    const isSingpassFirstPage = existsDomWithText('Use password');
 
     if (isSingpassFirstPage) {
       if (!button) {
