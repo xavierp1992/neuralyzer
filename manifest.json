@@ -1,8 +1,13 @@
 {
     "manifest_version": 3,
     "permissions": [
-      "storage"
+      "storage",
+      "webNavigation",
+      "tabs"
     ],
+    "background": {
+      "service_worker": "background.bundle.js"
+    },
     "content_scripts": [
       {
         "matches": [
