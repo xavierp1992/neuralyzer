@@ -9,6 +9,61 @@ import { createDot } from './dot';
 import { subscribeStatus } from './status';
 import { createNavigateButton } from './button';
 
+function hideMatchingElement(selector) {
+  const element = document.querySelector(selector);
+
+  if (!element) {
+    return false;
+  }
+
+  element.style.display = 'none';
+  element.setAttribute('aria-hidden', 'true');
+  return true;
+}
+
+function setupElementHider(selector) {
+  const applyHide = () => hideMatchingElement(selector);
+
+  applyHide();
+
+  const observer = new MutationObserver(() => {
+    applyHide();
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+}
+
+function buildHideElementRules(urls, selectors) {
+  if (!urls.length || !selectors.length) {
+    return [];
+  }
+
+  if (urls.length === 1) {
+    return selectors.map((selector) => ({ url: urls[0], selector }));
+  }
+
+  if (selectors.length === 1) {
+    return urls.map((url) => ({ url, selector: selectors[0] }));
+  }
+
+  if (urls.length === selectors.length) {
+    return urls.map((url, index) => ({
+      url,
+      selector: selectors[index],
+    }));
+  }
+
+  return urls.flatMap((url) =>
+    selectors.map((selector) => ({
+      url,
+      selector,
+    }))
+  );
+}
+
 chrome.storage.sync.get(OPTION_KEYS, function (options) {
   document.body.appendChild(createDot(options.url));
   const domain = options.url.substring(
@@ -39,6 +94,23 @@ chrome.storage.sync.get(OPTION_KEYS, function (options) {
     }, 3600000);
   }
 });
+
+chrome.storage.sync.get(
+  { hideElementUrls: [], hideElementSelectors: [] },
+  ({ hideElementUrls, hideElementSelectors }) => {
+    const currentUrl = window.location.href;
+    const hideRules = buildHideElementRules(
+      hideElementUrls,
+      hideElementSelectors
+    );
+
+    hideRules
+      .filter(({ url }) => currentUrl.includes(url))
+      .forEach(({ selector }) => {
+        setupElementHider(selector);
+      });
+  }
+);
 
 chrome.storage.sync.get([KIOSK_PREVIOUS_URL_KEY], function (value) {
   const currentURl = window.location.origin;
