@@ -51,6 +51,24 @@
         <span id="disable-links-status"></span>
       </div>
     </section>
+    <section class="container">
+      <h2>Hide elements on these pages</h2>
+      <div>
+        <p>
+          Enter one URL or partial URL per line and one CSS selector per line.
+          A single URL can be combined with many selectors, a single selector can
+          be combined with many URLs, matching line counts are paired by line,
+          and all other combinations apply every selector to every URL.
+        </p>
+        <label for="hideElementUrls">URLs</label>
+        <textarea id="hideElementUrls" rows="6" cols="60"></textarea>
+        <label for="hideElementSelectors">Selectors</label>
+        <textarea id="hideElementSelectors" rows="6" cols="60"></textarea>
+        <br />
+        <button id="save-hide-elements">Save</button>
+        <span id="hide-elements-status"></span>
+      </div>
+    </section>
   </main>
 </div>
 </body>
