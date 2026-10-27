@@ -4,7 +4,7 @@ export function subscribeStatus({ statusUrl, url }) {
   const eventSrc = new EventSource(statusUrl);
   eventSrc.onmessage = function (event) {
     const manualMaintenanceMessage =
-      'We are upgrading our systems to serve you better. \n. Thank you for your understanding.';
+      'We are upgrading our systems to serve you better. \n Thank you for your understanding.';
     chrome.storage.sync
       .get({ isManualMaintenance: false })
       .then(({ isManualMaintenance }) => {
